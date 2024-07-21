@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import typeorm from './config/typeorm';
 import { User } from './users/entities/user.entity';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { User } from './users/entities/user.entity';
     TypeOrmModule.forFeature([User]),
     AuthModule,
     UsersModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
