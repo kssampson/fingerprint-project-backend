@@ -20,7 +20,6 @@ export class MailService {
 
     try {
       await sendMail(mailOptions);
-      console.log('Password reset email sent');
       return { success: true, message: 'Please check your email. You can close this tab in your browser.' };
     } catch (error) {
       console.error('Error sending email:', error);

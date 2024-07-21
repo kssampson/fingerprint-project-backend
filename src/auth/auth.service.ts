@@ -17,9 +17,7 @@ export class AuthService {
   async signUp(signUpDto: SignUpDto) {
     signUpDto.password = await bcrypt.hash(signUpDto.password, 10);
     const { username, email, password, visitorId, has2FA } = signUpDto;
-    // console.log('signUpDto: ', signUpDto)
     const result = await this.userService.addUserDetails(username, email, password, visitorId, has2FA);
-    // console.log('result from addUserDetails: ', result)
     return result;
   }
   async logIn(logInDto: LogInDto) {
@@ -35,23 +33,17 @@ export class AuthService {
     const { email, password, token } = verifiedLogInDto;
     try {
       const decoded = await this.jwtService.verify(token);
-      console.log('decoded in auth.service: ', decoded.email);
       if (decoded.email) {
         const existingByEmail = await this.userService.getUserByEmail(email);
-        // console.log('existingByEmail: ', existingByEmail)
         if (existingByEmail && existingByEmail.email === decoded.email) {
-          console.log('error one')
           return this.userService.change2FAStatus(email, password);
         } else {
-          console.log('error two')
           return {success: false, message: 'verfied email and database email do not match!'}
         }
       } else {
-        console.log('error three')
         return {success: false, message: 'hmmm, doesn\'t look like we have you on file...'}
       }
     } catch (error) {
-      console.log('error four')
       return {success: false, message: 'we encountered an error, please refresh your page and try again'}
     }
   }

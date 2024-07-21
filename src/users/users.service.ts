@@ -25,7 +25,6 @@ export class UsersService {
     return await this.userRepository.find();
   }
   async getUserByEmail(email: string) {
-    console.log('email is getUserByEmail: ', email)
     const user = await this.userRepository.findOne({
       where: [{ email }]
     });
@@ -38,7 +37,6 @@ export class UsersService {
     const existingByVisitorId = await this.userRepository.findOne({
       where: [{ visitorId }]
     });
-    // console.log(existingByEmail);
     if (existingByEmail) {
       return {success: false, message: 'Email Already Exists. Have you already signed up?'}
     } else if (existingByVisitorId) {
@@ -50,26 +48,19 @@ export class UsersService {
   async logIn(email: string, password: string) {
     try {
       const existingUser = await this.userRepository.findOne({ where: [{ email }] });
-      console.log('existingUser: ', existingUser);
       if (!existingUser) {
-        console.log(':::not an existing user:::')
-        return {success: false, inValidEmail: true, message: 'Invalid email!'} //works getting the user
+        return {success: false, inValidEmail: true, message: 'Invalid email!'}
       }
       const isPasswordValid = await bcrypt.compare(password, existingUser.password);
-      // console.log(':::isPasswordValid: ', isPasswordValid, ':::') //returns true
       if (!isPasswordValid) {
-        console.log(':::inside !isPasswordValid block:::', existingUser.password, password)
         return {success: false, inValidPassword: true, message: 'Invalid password!'}
       }
       if (existingUser.has2FA) {
-        console.log(':::inside existingUser.has2FA block:::')
         return {success: true, message: 'You have completed two factor authentication and are now logged in. Welcome!'}
       } else {
-        console.log(':::inside inside else block:::')
         return {success: false, needs2Fa: true, message: 'Please proceed with two factor authentication'}
       }
     } catch (error) {
-      console.log(':::inside catch block:::')
       throw new Error;
     }
   }
