@@ -1,73 +1,137 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# NestJS Two-Factor Authentication Project
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This backend application, built with the Nest framework, serves as the server-side component for a job application project. It handles user authentication, including two-factor authentication via email, and interacts with a PostgreSQL database using TypeORM.
+
+## Technologies Used
+
+- ![NestJS](https://skillicons.dev/icons?i=nestjs)
+- ![TypeORM](https://skillicons.dev/icons?i=typeorm)
+- ![PostgreSQL](https://skillicons.dev/icons?i=postgres)
+- ![JWT](https://skillicons.dev/icons?i=jwt)
+- ![Nodemailer](https://skillicons.dev/icons?i=nodemailer)
+- ![FingerprintJS](https://skillicons.dev/icons?i=fingerprintjs)
+
+## Modules
+
+### AppModule
+
+**Imports:**
+- `ConfigModule`: Loads environment variables.
+- `TypeOrmModule`: Configures TypeORM with PostgreSQL.
+- `AuthModule`, `UsersModule`, `MailModule`: Custom application modules for authentication, user management, and mailing functionalities.
+
+**Controllers:**
+- `AppController`
+
+**Providers:**
+- `AppService`
+
+### AuthModule
+
+**Controllers:**
+- `AuthController`
+
+**Providers:**
+- `AuthService`
+
+**Imports:**
+- `UsersModule`, `MailModule`
+- `JwtModule`: Configured for JWT token generation and verification.
+
+### UsersModule
+
+**Providers:**
+- `UsersService`
+
+**Imports:**
+- `TypeOrmModule.forFeature([User])`: Configures the repository for the User entity.
+
+### MailModule
+
+**Providers:**
+- `MailService`
+
+**Imports:**
+- `MailModule`
+
+## Services
+
+### AuthService
+
+- `signUp`: Handles user registration, including password hashing.
+- `logIn`: Handles user login, verifying credentials and checking for 2FA.
+- `verifyEmail`: Sends a verification email with a JWT token.
+- `verifiedLogin`: Verifies the JWT token from the email link and completes the login process.
+
+### UsersService
+
+- `addUserDetails`: Adds a new user to the database.
+- `getAllUsers`: Retrieves all users.
+- `getUserByEmail`: Retrieves a user by email.
+- `checkUserExists`: Checks if a user exists by email or visitorId.
+- `logIn`: Validates user credentials and 2FA status.
+- `change2FAStatus`: Updates the 2FA status of a user.
+
+### MailService
+
+- `verifyEmail`: Sends a verification email with a token link.
+
+## Controllers
+
+### AuthController
+
+- `signUp (POST /auth/sign-up)`: Registers a new user.
+- `logIn (POST /auth/log-in)`: Logs in an existing user.
+- `verifyEmail (POST /auth/verify-email)`: Sends a verification email.
+- `verifiedLogin (POST /auth/verified-log-in)`: Verifies email link and logs in the user.
 
 ## Installation
 
-```bash
-$ npm install
-```
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/kssampson/fingerprint-project-backend.git
+    cd fingerprint-project-backend
+    ```
 
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+
+3. Set up the environment variables by creating a `.env` file in the root directory and adding the following:
+    ```env
+    DATABASE_HOST=your_database_host
+    DATABASE_PORT=your_database_port
+    DATABASE_USERNAME=your_database_username
+    DATABASE_PASSWORD=your_database_password
+    DATABASE_NAME=your_database_name
+    GMAIL_USER=your_gmail_user
+    GMAIL_PASSWORD=your_gmail_password
+    ```
+<br>
 ## Running the app
 
+To start the application, run:
+
 ```bash
-# development
-$ npm run start
+# development mode
+npm run start
 
 # watch mode
-$ npm run start:dev
+npm run start:dev
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+## ✉ Find me on:
+<br />
+<p align="left">
+ <a href="https://www.linkedin.com/in/sampsonkyle/" target="_blank" rel="noopener noreferrer">
+  <img src="https://skillicons.dev/icons?i=linkedin", alt="Linkedin" height="40" style="vertical-align:top; margin:4px; margin-right:10px">
+ </a>
+ <a href="mailto:kylesampsonmusic@gmail.com">
+  <img src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gmail.svg" alt="Email" height="40" style="vertical-align:top; margin: 4px; margin-left: 10px">
+ </a>
+</p>
