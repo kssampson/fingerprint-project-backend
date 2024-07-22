@@ -2,6 +2,51 @@
 
 User authentication backend utilizing FingerprintJS and two-factor authentication via email.
 
+## Frontend
+
+This application requires the frontend application. You can find the front repository at the following link:
+
+[Frontned Repository](https://github.com/kssampson/fingerprint-project-frontend.git)
+
+## Installation
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/kssampson/fingerprint-project-backend.git
+    cd fingerprint-project-backend
+    ```
+
+2. Install dependencies:
+    ```bash
+    npm install
+    ```
+
+3. Set up the environment variables by creating a `.env` file in the root directory and adding the following:
+    ```env
+    DATABASE_HOST=your_database_host
+    DATABASE_PORT=your_database_port
+    DATABASE_USERNAME=your_database_username
+    DATABASE_PASSWORD=your_database_password
+    DATABASE_NAME=your_database_name
+    GMAIL_USER=your_gmail_user
+    GMAIL_PASSWORD=your_gmail_password
+    ```
+<br>
+## Running the app
+
+To start the application, run:
+
+```bash
+# development mode
+npm run start
+
+# watch mode
+npm run start:dev
+
+# production mode
+npm run start:prod
+```
+
 ## Technologies Used
 - NestJS
 - TypeORM
@@ -44,44 +89,6 @@ User authentication backend utilizing FingerprintJS and two-factor authenticatio
 - `verifyEmail (POST /auth/verify-email)`: Sends a verification email.
 - `verifiedLogin (POST /auth/verified-log-in)`: Verifies email link and logs in the user.
 
-## Installation
-
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/kssampson/fingerprint-project-backend.git
-    cd fingerprint-project-backend
-    ```
-
-2. Install dependencies:
-    ```bash
-    npm install
-    ```
-
-3. Set up the environment variables by creating a `.env` file in the root directory and adding the following:
-    ```env
-    DATABASE_HOST=your_database_host
-    DATABASE_PORT=your_database_port
-    DATABASE_USERNAME=your_database_username
-    DATABASE_PASSWORD=your_database_password
-    DATABASE_NAME=your_database_name
-    GMAIL_USER=your_gmail_user
-    GMAIL_PASSWORD=your_gmail_password
-    ```
-<br>
-## Running the app
-
-To start the application, run:
-
-```bash
-# development mode
-npm run start
-
-# watch mode
-npm run start:dev
-
-# production mode
-npm run start:prod
-```
 ## ✉ Find me on:
 <br />
 <p align="left">
