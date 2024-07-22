@@ -6,12 +6,11 @@ This backend application, built with the Nest framework, serves as the server-si
 
 ## Technologies Used
 
-- ![NestJS](https://skillicons.dev/icons?i=nestjs)
-- ![TypeORM](https://skillicons.dev/icons?i=typeorm)
-- ![PostgreSQL](https://skillicons.dev/icons?i=postgres)
-- ![JWT](https://skillicons.dev/icons?i=jwt)
-- ![Nodemailer](https://skillicons.dev/icons?i=nodemailer)
-- ![FingerprintJS](https://skillicons.dev/icons?i=fingerprintjs)
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=fingerprintjs,nestjs,typeorm,postgres,jwt,nodemailer" />
+  </a>
+</p>
 
 ## Modules
 
@@ -21,40 +20,6 @@ This backend application, built with the Nest framework, serves as the server-si
 - `ConfigModule`: Loads environment variables.
 - `TypeOrmModule`: Configures TypeORM with PostgreSQL.
 - `AuthModule`, `UsersModule`, `MailModule`: Custom application modules for authentication, user management, and mailing functionalities.
-
-**Controllers:**
-- `AppController`
-
-**Providers:**
-- `AppService`
-
-### AuthModule
-
-**Controllers:**
-- `AuthController`
-
-**Providers:**
-- `AuthService`
-
-**Imports:**
-- `UsersModule`, `MailModule`
-- `JwtModule`: Configured for JWT token generation and verification.
-
-### UsersModule
-
-**Providers:**
-- `UsersService`
-
-**Imports:**
-- `TypeOrmModule.forFeature([User])`: Configures the repository for the User entity.
-
-### MailModule
-
-**Providers:**
-- `MailService`
-
-**Imports:**
-- `MailModule`
 
 ## Services
 
@@ -129,9 +94,9 @@ npm run start:prod
 <br />
 <p align="left">
  <a href="https://www.linkedin.com/in/sampsonkyle/" target="_blank" rel="noopener noreferrer">
-  <img src="https://skillicons.dev/icons?i=linkedin", alt="Linkedin" height="40" style="vertical-align:top; margin:4px; margin-right:10px">
+  <img src="https://skillicons.dev/icons?i=linkedin" alt="LinkedIn" height="40" style="vertical-align:top; margin:4px 10px 4px 0;">
  </a>
  <a href="mailto:kylesampsonmusic@gmail.com">
-  <img src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gmail.svg" alt="Email" height="40" style="vertical-align:top; margin: 4px; margin-left: 10px">
+  <img src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gmail.svg" alt="Email" height="40" style="vertical-align:top; margin:4px 0 4px 10px;">
  </a>
 </p>
