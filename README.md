@@ -1,25 +1,17 @@
-# NestJS Two-Factor Authentication Project
+# Description
 
-## Description
-
-This backend application, built with the Nest framework, serves as the server-side component for a job application project. It handles user authentication, including two-factor authentication via email, and interacts with a PostgreSQL database using TypeORM.
+User authentication backend utilizing FingerprintJS and two-factor authentication via email.
 
 ## Technologies Used
-
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=fingerprintjs,nestjs,typeorm,postgres,jwt,nodemailer" />
-  </a>
-</p>
-
-## Modules
-
-### AppModule
-
-**Imports:**
-- `ConfigModule`: Loads environment variables.
-- `TypeOrmModule`: Configures TypeORM with PostgreSQL.
-- `AuthModule`, `UsersModule`, `MailModule`: Custom application modules for authentication, user management, and mailing functionalities.
+- NestJS
+- TypeORM
+- PostgreSQL
+- JWT (JSON Web Tokens)
+- Nodemailer
+- FingerprintJS
+- React
+- Node.js
+- TypeScript
 
 ## Services
 
