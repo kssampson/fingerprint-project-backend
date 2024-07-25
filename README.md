@@ -8,6 +8,13 @@ This application requires the frontend application. You can find the front repos
 
 [Frontned Repository](https://github.com/kssampson/fingerprint-project-frontend.git)
 
+## Postgres Database
+
+This application requires a postgres database:
+- Log into postgres with a username. The username you choose for logging into postgres must match the DATABASE_USERNAME in your .env (see Instalation, step 3).
+- Create a database. The database name must match the DATABASE_NAME in your .env (see Instalation, step 3).
+- You do not need to manually create a table schema. In the app, see src/users/entities/user.entity.ts. This file will automatically create the table and auto-generate the needed columns, provided you have congruency with your postgres database and .env variables mentioned above.
+
 ## Installation
 
 1. Clone the repository:
@@ -25,9 +32,9 @@ This application requires the frontend application. You can find the front repos
     ```env
     DATABASE_HOST=your_database_host
     DATABASE_PORT=your_database_port
-    DATABASE_USERNAME=your_database_username
+    DATABASE_USERNAME=your_database_username (your postgres username)
     DATABASE_PASSWORD=your_database_password
-    DATABASE_NAME=your_database_name
+    DATABASE_NAME=your_database_name (the name of the database you created)
     GMAIL_USER=your_gmail_user
     GMAIL_PASSWORD=your_gmail_password
     ```
