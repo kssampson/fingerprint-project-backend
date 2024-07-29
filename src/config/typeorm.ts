@@ -18,7 +18,6 @@ const config = {
     autoLoadEntities: true,
     synchronize: false,
     logging: true,
-    ssl: true,
 }
 
 export default registerAs('typeorm', () => config)
