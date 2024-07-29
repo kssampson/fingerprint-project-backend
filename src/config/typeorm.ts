@@ -16,9 +16,15 @@ const config = {
     //where we put the migrations when generate them, then where we look for them to run
     migrations: ["dist/migrations/*{.ts,.js}"],
     autoLoadEntities: true,
-    synchronize: false,
+    synchronize: true,
     logging: true,
 }
+
+console.log('Connecting to database with the following configuration:');
+console.log(`Host: ${process.env.DATABASE_HOST}`);
+console.log(`Port: ${process.env.DATABASE_PORT}`);
+console.log(`Username: ${process.env.DATABASE_USERNAME}`);
+console.log(`Database: ${process.env.DATABASE_NAME}`);
 
 export default registerAs('typeorm', () => config)
 export const connectionSource = new DataSource(config as DataSourceOptions)
