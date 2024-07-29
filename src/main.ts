@@ -10,7 +10,10 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
     transform: true
   }));
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3000', // Replace when frontend URL is set up in instance
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  });
   await app.listen(3001);
 }
 bootstrap();
