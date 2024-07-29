@@ -18,7 +18,6 @@ const config = {
     autoLoadEntities: true,
     synchronize: false,
     logging: true,
-    ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
 }
 
 export default registerAs('typeorm', () => config)
