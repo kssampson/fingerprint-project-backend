@@ -11,7 +11,7 @@ async function bootstrap() {
     transform: true
   }));
   app.enableCors({
-    origin: 'http://localhost:3000', // Replace when frontend URL is set up in instance
+    origin: `${process.env.FRONTEND_IP_ADDRESS}`, // Replace when frontend URL is set up in instance
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
   await app.listen(3001);
