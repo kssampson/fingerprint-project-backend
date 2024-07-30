@@ -12,7 +12,7 @@ async function bootstrap() {
   }));
   app.enableCors({
     origin: `${process.env.FRONTEND_IP_ADDRESS}`, // Replace when frontend URL is set up in instance
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   });
   await app.listen(3001);
 }
