@@ -13,7 +13,7 @@ export const emailVerificationTemplate = (email: string, token: string) => {
       <div style="padding: 20px;">
         <h2 style="color: #333333;">Verify Your Email!</h2>
         <p style="color: #666666;">Please click the button below to verify your email address.</p>
-        <a href="${process.env.BASE_URL_FRONT_END}/verify?token=${token}" target="_blank" style="display: inline-block; padding: 10px 20px; margin: 20px 0; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px;">Verify Email</a>
+        <a href="${process.env.FRONTEND_IP_ADDRESS}/verify?token=${token}" target="_blank" style="display: inline-block; padding: 10px 20px; margin: 20px 0; font-size: 16px; color: #ffffff; background-color: #007bff; text-decoration: none; border-radius: 5px;">Verify Email</a>
         <p style="color: #666666;">Clicking the button will open a new tab where you can complete a verified sign-in. Thank you!</p>
         <p style="color: #666666;">If you did not create an account, please ignore this email.</p>
       </div>
