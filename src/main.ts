@@ -13,6 +13,7 @@ async function bootstrap() {
   app.enableCors({
     origin: `${process.env.FRONTEND_IP_ADDRESS}`, // Replace when frontend URL is set up in instance
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization',
   });
   await app.listen(3001);
 }
