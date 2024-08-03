@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from 'src/users/dto/SignUpDto';
 import { LogInDto, VerifyEmailDto } from 'src/users/dto/LogInDto';
 import { VerifiedLogInDto } from 'src/users/dto/VerifiedLogInDto';
+import { VisitorId } from 'src/users/entities/visitorId.entity';
+import { OtpDto } from 'src/users/dto/OtpDto';
 
 @Controller('auth')
 export class AuthController {
@@ -17,12 +19,9 @@ export class AuthController {
     const result = await this.authService.logIn(logInDto);
     return result;
   }
-  @Post('verify-email')
-  async verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
-    return await this.authService.verifyEmail(verifyEmailDto);
-  }
-  @Post('verified-log-in')
-  async verifiedLogin(@Body() verifiedLogInDto: VerifiedLogInDto) {
-    return await this.authService.verifiedLogin(verifiedLogInDto);
+  @Post('process-otp')
+  async processOtp(@Body() otpDto: OtpDto) {
+    const result = await this.authService.processOtp(otpDto);
+    return result;
   }
 }
