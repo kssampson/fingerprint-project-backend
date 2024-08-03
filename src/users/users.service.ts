@@ -60,7 +60,6 @@ export class UsersService {
     if (visitorRecord.twoFA) {
       return { success: true, message: 'You have completed two factor authentication and are now logged in. Welcome!' }
     }
-    console.log('error logging in at end of users.service')
     return { success: false, message: 'Error logging in, please try again' }
   }
 
