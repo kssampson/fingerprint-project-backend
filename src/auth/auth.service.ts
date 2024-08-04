@@ -30,34 +30,8 @@ export class AuthService {
   async processOtp(otpDto: OtpDto) {
     const { otp, username, password, visitorId } = otpDto;
     const result = await this.userService.processOtp(otp, username, password, visitorId)
+    return result;
   }
-  // async getUserByVisitorId(visitorId: string) {
-  //   console.log('in auth service getUserByVisitorId')
-  //   const result = await this.userService.getUserByVisitorId(visitorId);
-  //   return result;
-  // }
-  // async verifyEmail(verifyEmailDto: VerifyEmailDto) {
-  //   const { email } = verifyEmailDto;
-  //   return this.mailService.verifyEmail(email);
-  // }
-  // async verifiedLogin(verifiedLogInDto: VerifiedLogInDto) {
-  //   const { email, password, token } = verifiedLogInDto;
-  //   try {
-  //     const decoded = await this.jwtService.verify(token);
-  //     if (decoded.email) {
-  //       const existingByEmail = await this.userService.getUserByEmail(email);
-  //       if (existingByEmail && existingByEmail.email === decoded.email) {
-  //         return this.userService.change2FAStatus(email, password);
-  //       } else {
-  //         return {success: false, message: 'verfied email and database email do not match!'}
-  //       }
-  //     } else {
-  //       return {success: false, message: 'hmmm, doesn\'t look like we have you on file...'}
-  //     }
-  //   } catch (error) {
-  //     return {success: false, message: 'we encountered an error, please refresh your page and try again'}
-  //   }
-  // }
 }
 
 /*

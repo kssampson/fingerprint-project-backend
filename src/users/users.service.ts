@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConsoleLogger, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
@@ -34,33 +34,50 @@ export class UsersService {
   }
 
   async logIn(username: string, password: string, visitorId: string) {
-    //Check if user has valid assoc. username, password, and visitorID
-    const user = await this.userRepository.findOne({ where: [{ username }] });
-    if (!user) {
-      return { success: false, inValidUsername: true, message: 'Invalid username!' }
+    try {
+      // Fetch the user along with their associated visitorIds and OTP records
+      const user = await this.userRepository.findOne({
+        where: { username },
+        relations: ['visitorIds', 'visitorIds.otp']
+      });
+
+      if (!user) {
+        return { success: false, invalidUsername: true, message: 'Invalid username!' };
+      }
+
+      // Validate the password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return { success: false, invalidPassword: true, message: 'Invalid password!' };
+      }
+
+      // Check if the visitor record associated with the input visitorId exists
+      let visitorRecord = user.visitorIds.find(v => v.visitorId === visitorId);
+
+      if (!visitorRecord) {
+        // VisitorId does not exist, create a new record and initiate 2FA
+        visitorRecord = this.visitorIdRepository.create({
+          visitorId,
+          user,
+        });
+        await this.visitorIdRepository.save(visitorRecord);
+
+        // Initiate 2FA
+        return await this.mailService.initiateTwoFA(user.username, user.email, visitorId);
+      }
+
+      // Check if the visitor record has completed 2FA
+      if (!visitorRecord.twoFA) {
+        // Initiate 2FA
+        return await this.mailService.initiateTwoFA(user.username, user.email, visitorId);
+      }
+
+      // If 2FA is complete
+      return { success: true, message: 'You are successfully logged in. Welcome!' };
+
+    } catch (error) {
+      return { success: false, message: error.message };
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return { success: false, inValidPassword: true, message: 'Invalid password!' }
-    }
-    // Get record assoc. with visitor id and credentials
-    const visitorRecord = await this.visitorIdRepository.findOne({
-      where: { visitorId, user: { id: user.id } },
-      relations: ['user','otp']
-    })
-    //if user doesn't have visitor record
-    if (!visitorRecord) {
-      return { success: false, message: 'Visitor ID not associated with user! Is this your account?' };
-    }
-    //If visitor record has not done 2fa
-    if (!visitorRecord.twoFA) {
-      //Initiate 2fa logic here. Create and use helpers.
-      return await this.mailService.initiateTwoFA(visitorRecord.visitorId, visitorRecord.user.username, visitorRecord.user.email, )
-    }
-    if (visitorRecord.twoFA) {
-      return { success: true, message: 'You have completed two factor authentication and are now logged in. Welcome!' }
-    }
-    return { success: false, message: 'Error logging in, please try again' }
   }
 
   async processOtp(otp: string, username: string, password: string, visitorId: string) {
@@ -74,9 +91,6 @@ export class UsersService {
       where: { visitorId, user: { id: user.id } },
       relations: ['user', 'otp'],
     });
-    if (!visitorRecord) {
-      return { success: false, message: 'Visitor ID not associated with user.' };
-    }
     //validate the input otp matches the one in the database
     const otpRecord = await this.otpRepository.findOne({
       where: { otp: otp, visitorId: visitorRecord },
@@ -87,18 +101,22 @@ export class UsersService {
     //check if OTP is expired
     const now = new Date();
     if (now > otpRecord.expiresAt) {
-      // Remove the expired OTP record
-      await this.otpRepository.remove(otpRecord);
+      // Remove the expired OTP record. Brutal hack, just set up things to null until cascade is set up
+      otpRecord.otp = null;
+      otpRecord.createdAt = null;
+      otpRecord.expiresAt = null;
+      await this.otpRepository.save(otpRecord);
       return { success: false, otpExpired: true, message: 'OTP has expired.' };
     }
     //update 2fa status to true
     visitorRecord.twoFA = true;
     await this.visitorIdRepository.save(visitorRecord);
-    //cleanup the otp table
+    //cleanup the otp table. Again, brutal hack, but just set to null until cascade is set up
     otpRecord.otp = null;
     otpRecord.createdAt = null;
     otpRecord.expiresAt = null;
     await this.otpRepository.save(otpRecord);
+    await this.logIn(visitorRecord.user.username, visitorRecord.user.password, visitorRecord.visitorId)
     return { success: true, message: 'OTP verified successfully. Two-factor authentication is now complete.' };
   }
 

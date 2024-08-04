@@ -8,6 +8,7 @@ import { VisitorId } from 'src/users/entities/visitorId.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { OTP } from 'src/users/entities/otp.entity';
+import * as bcrypt from 'bcrypt';
 require('dotenv').config();
 
 @Injectable()
@@ -22,7 +23,7 @@ export class MailService {
     private otpRepository: Repository<OTP>,
     ) {}
 
-  async initiateTwoFA(visitorId: string, username: string, email: string) {
+  async initiateTwoFA(username: string, email: string, visitorId: string) { //consider passing the whole record instead of doing another database read for the visitorRecord
     // create one time password
     const otpCode = await otpGen();
     const createdAt = new Date();
@@ -35,14 +36,11 @@ export class MailService {
       relations: ['user','otp']
     })
 
-    if (!visitorRecord) {
-      return { success: false, message: 'Visitor ID not associated with user! Is this your account?' };
-    }
     const newOtp = this.otpRepository.create({
       otp: otpCode,
       createdAt: createdAt,
       expiresAt: expiresAt,
-      visitorId: visitorRecord
+      visitorId: visitorRecord //typeORM should map to this as the entity, not a copy this current visitorRecord in time as it appears. Postgres does this for us and typeORM just hooks into that.
     })
 
     try {
