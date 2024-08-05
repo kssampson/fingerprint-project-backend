@@ -129,7 +129,6 @@ export class UsersService {
     }
     const existingByVisitorId = await this.visitorIdRepository.findOne({
       where: { visitorId },
-      relations: ['user']
     });
     if (existingByVisitorId) {
       return {success: false, message: 'Hmm, something\'s not quite right. Have you already signed up?'}

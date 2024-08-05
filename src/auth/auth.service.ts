@@ -33,10 +33,3 @@ export class AuthService {
     return result;
   }
 }
-
-/*
-this.userService.change2FAStatus(email, password);
-return {success: false, message: 'verfied email and database email do not match!'}
-return {success: false, message: 'hmmm, doesn\'t look like we have you on file...'}
-
-*/
