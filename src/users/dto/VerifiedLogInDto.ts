@@ -17,5 +17,10 @@ export class VerifiedLogInDto {
   @IsNotEmpty()
   @IsString()
   @Transform(({ value }) => sanitizeHtml(value))
+  visitorId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @Transform(({ value }) => sanitizeHtml(value))
   token: string | null;
 }

@@ -1,10 +1,14 @@
-import { IsString, IsEmail, IsNotEmpty, IsBoolean } from 'class-validator';
+import { IsString, IsNotEmpty} from 'class-validator';
 import { Transform } from 'class-transformer';
 import * as sanitizeHtml from 'sanitize-html';
-import { PartialType } from '@nestjs/mapped-types';
 
 
-export class LogInDto {
+export class OtpDto {
+  @IsNotEmpty()
+  @IsString()
+  @Transform(({ value }) => sanitizeHtml(value))
+  otp: string;
+
   @IsNotEmpty()
   @IsString()
   @Transform(({ value }) => sanitizeHtml(value))
@@ -19,6 +23,5 @@ export class LogInDto {
   @IsString()
   @Transform(({ value }) => sanitizeHtml(value))
   visitorId: string;
-}
 
-export class VerifyEmailDto extends PartialType(LogInDto) {}
+}

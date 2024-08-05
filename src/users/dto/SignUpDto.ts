@@ -24,7 +24,4 @@ export class SignUpDto {
   @Transform(({ value }) => sanitizeHtml(value))
   visitorId: string;
 
-  @IsBoolean()
-  @IsNotEmpty()
-  has2FA: boolean;
 }

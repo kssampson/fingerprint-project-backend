@@ -6,6 +6,8 @@ import { LogInDto, VerifyEmailDto } from 'src/users/dto/LogInDto';
 import { MailService } from 'src/mail/mail.service';
 import { JwtService } from '@nestjs/jwt';
 import { VerifiedLogInDto } from 'src/users/dto/VerifiedLogInDto';
+import { VisitorId } from 'src/users/entities/visitorId.entity';
+import { OtpDto } from 'src/users/dto/OtpDto';
 
 @Injectable()
 export class AuthService {
@@ -16,42 +18,18 @@ export class AuthService {
     ){}
   async signUp(signUpDto: SignUpDto) {
     signUpDto.password = await bcrypt.hash(signUpDto.password, 10);
-    const { username, email, password, visitorId, has2FA } = signUpDto;
-    const result = await this.userService.addUserDetails(username, email, password, visitorId, has2FA);
+    const { username, email, password, visitorId } = signUpDto;
+    const result = await this.userService.signUp(username, email, password, visitorId);
     return result;
   }
   async logIn(logInDto: LogInDto) {
-    const { email, password } = logInDto;
-    const result = await this.userService.logIn(email, password);
+    const { username, password, visitorId } = logInDto;
+    const result = await this.userService.logIn(username, password, visitorId);
     return result;
   }
-  async verifyEmail(verifyEmailDto: VerifyEmailDto) {
-    const { email } = verifyEmailDto;
-    return this.mailService.verifyEmail(email);
-  }
-  async verifiedLogin(verifiedLogInDto: VerifiedLogInDto) {
-    const { email, password, token } = verifiedLogInDto;
-    try {
-      const decoded = await this.jwtService.verify(token);
-      if (decoded.email) {
-        const existingByEmail = await this.userService.getUserByEmail(email);
-        if (existingByEmail && existingByEmail.email === decoded.email) {
-          return this.userService.change2FAStatus(email, password);
-        } else {
-          return {success: false, message: 'verfied email and database email do not match!'}
-        }
-      } else {
-        return {success: false, message: 'hmmm, doesn\'t look like we have you on file...'}
-      }
-    } catch (error) {
-      return {success: false, message: 'we encountered an error, please refresh your page and try again'}
-    }
+  async processOtp(otpDto: OtpDto) {
+    const { otp, username, password, visitorId } = otpDto;
+    const result = await this.userService.processOtp(otp, username, password, visitorId)
+    return result;
   }
 }
-
-/*
-this.userService.change2FAStatus(email, password);
-return {success: false, message: 'verfied email and database email do not match!'}
-return {success: false, message: 'hmmm, doesn\'t look like we have you on file...'}
-
-*/

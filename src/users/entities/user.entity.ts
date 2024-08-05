@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { VisitorId } from './visitorId.entity';
 
 @Entity()
 export class User {
@@ -14,9 +15,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  visitorId: string;
-
-  @Column()
-  has2FA: boolean;
+  @OneToMany(() => VisitorId, (visitorId) => visitorId.user)
+  visitorIds: VisitorId[];
 }
