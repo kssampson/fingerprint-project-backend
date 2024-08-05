@@ -20,11 +20,11 @@ const config = {
     logging: true,
 }
 
-console.log('Connecting to database with the following configuration:');
-console.log(`Host: ${process.env.DATABASE_HOST}`);
-console.log(`Port: ${process.env.DATABASE_PORT}`);
-console.log(`Username: ${process.env.DATABASE_USERNAME}`);
-console.log(`Database: ${process.env.DATABASE_NAME}`);
+// console.log('Connecting to database with the following configuration:');
+// console.log(`Host: ${process.env.DATABASE_HOST}`);
+// console.log(`Port: ${process.env.DATABASE_PORT}`);
+// console.log(`Username: ${process.env.DATABASE_USERNAME}`);
+// console.log(`Database: ${process.env.DATABASE_NAME}`);
 
 export default registerAs('typeorm', () => config)
 export const connectionSource = new DataSource(config as DataSourceOptions)
