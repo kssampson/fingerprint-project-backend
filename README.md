@@ -3,7 +3,7 @@
 User authentication backend utilizing FingerprintJS and two-factor authentication via email.
 
 # Deployed Example
-(https://fingerprintproject.site/)
+https://fingerprintproject.site/
 
 ## Frontend
 
