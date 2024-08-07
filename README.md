@@ -4,16 +4,14 @@ User authentication backend utilizing FingerprintJS and two-factor authenticatio
 
 ## Frontend
 
-This application requires the frontend application. You can find the front repository at the following link:
-
-[Frontned Repository](https://github.com/kssampson/fingerprint-project-frontend.git)
+This application requires the frontend application. You can find the front repository at the following link: [Frontned Repository](https://github.com/kssampson/fingerprint-project-frontend.git)
 
 ## Postgres Database
 
 This application requires a postgres database:
 - Log into postgres with a username. The username you choose for logging into postgres must match the DATABASE_USERNAME in your .env (see Instalation, step 3).
 - Create a database. The database name must match the DATABASE_NAME in your .env (see Instalation, step 3).
-- You do not need to manually create a table schema. In the app, see src/users/entities/user.entity.ts. This file will automatically create the table and auto-generate the needed columns, provided you have congruency with your postgres database and .env variables mentioned above.
+- You do not need to manually create a table schema. In the app, see src/users/entities/user.entity.ts. These will automatically create the table and auto-generate the needed columns, provided you have congruency with your postgres database and .env variables mentioned above.
 
 ## Installation
 
@@ -58,7 +56,7 @@ npm run start:prod
 - NestJS
 - TypeORM
 - PostgreSQL
-- JWT (JSON Web Tokens)
+- Google App Passwords
 - Nodemailer
 - FingerprintJS
 - React
@@ -93,8 +91,7 @@ npm run start:prod
 
 - `signUp (POST /auth/sign-up)`: Registers a new user.
 - `logIn (POST /auth/log-in)`: Logs in an existing user.
-- `verifyEmail (POST /auth/verify-email)`: Sends a verification email.
-- `verifiedLogin (POST /auth/verified-log-in)`: Verifies email link and logs in the user.
+- `process-otp (POST /auth/process-otp)`: Sends a verification email.
 
 ## ✉ Find me on:
 <br />
